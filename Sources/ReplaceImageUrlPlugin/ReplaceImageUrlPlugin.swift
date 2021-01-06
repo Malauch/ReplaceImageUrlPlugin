@@ -4,13 +4,13 @@ import Publish
 public extension Plugin {
    static func replaceImageUrl(config: ReplaceLocalPathConfig? = .init()) -> Self {
       Plugin(name: "ReplaceImageUrl") { context in
-         context.markdownParser.addModifier(.replaceImageUrlPlugin(config: config))
+         context.markdownParser.addModifier(.replaceImageUrl(config: config))
       }
    }
 }
 
 public extension Modifier {
-   static func replaceImageUrlPlugin(config: ReplaceLocalPathConfig? = .init()) -> Self {
+   static internal func replaceImageUrl(config: ReplaceLocalPathConfig? = .init()) -> Self {
       Modifier(target: .images) { (html, markdown) -> String in
          let config = config ?? ReplaceLocalPathConfig()
          
