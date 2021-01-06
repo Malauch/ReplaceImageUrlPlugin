@@ -51,4 +51,46 @@ try MyBlog().publish(withTheme: .myTheme, plugins: [
 ```
 
 ## Usage
+### Default configuration
+Plugin by default uses `#"^(.*?Resources)"#` as a regular expression which matching every character from the beginning of the path to the end of Resources word and replaces it with empty string `""`.
 
+This makes possible to use local path in markdown like this.
+
+```markdown   
+![Image](./../../Resources/images/image.png)
+```
+
+Which is later translated to html as a relative path to the image:
+
+```html
+<img src="/images/image.png" alt="Image"/>
+```
+
+### Custom configuration
+Is it possible to provide custom regular expression to find pattern in image path and custom string as replace with.
+
+To provide custom values you need to provide `ReplaceLocalPathConfig` struct instance for `.init(config:ReplaceLocalPathConfig)` plugin initializer.
+
+```swift
+let config = ReplaceLocalPathConfig(pathRegex: #"replace\d*this"#, with: "newPath")
+
+try MyBlog().publish(withTheme: .myTheme, plugins: [
+	.replaceImageUrl(config: config)
+	// ...
+])
+```
+
+This example translates markdown like this:
+
+```markdown    
+![Image](/a/b/Resources/replace123this/images/image.png)
+```
+
+into html like this:
+
+```html
+<img src="/a/b/Resources/newPath/images/image.png" alt="Image"/>
+```
+
+## Contribution
+If you noticed any bugs or points for improvement, feel free to create Pull Request (Merge Request).
