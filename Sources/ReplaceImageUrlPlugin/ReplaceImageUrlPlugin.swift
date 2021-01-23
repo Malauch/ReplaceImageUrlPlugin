@@ -14,7 +14,7 @@ public extension Modifier {
       Modifier(target: .images) { (html, markdown) -> String in
          let config = config ?? ReplaceLocalPathConfig()
          
-         let pathRegex = #"(?<=src=")(.+)(?=")"#
+         let pathRegex = #"(?<=src=")(.+?)(?=")"#
          guard let pathRange = html.range(of: pathRegex, options: [.regularExpression]) else { return html }
          let pathString = html[pathRange]
          
